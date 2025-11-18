@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class Solution {
 
 	private String target;
-	private ArrayList<Character> partialSolution;
-	private int missingChars;
+	protected ArrayList<Character> partialSolution;
+	protected int missingChars;
 
 	public Solution(String target) {
 		this.target = target;
@@ -13,6 +13,10 @@ public class Solution {
 		for (int i = 0; i < target.length(); i++) {
 			partialSolution.add('_');
 		}
+	}
+
+	public Solution() {
+
 	}
 
 	public boolean isSolved() {
