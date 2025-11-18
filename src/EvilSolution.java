@@ -26,7 +26,7 @@ public class EvilSolution extends Solution {
         ArrayList<Integer> emptyIdx = new ArrayList<>();
         int guessIdx = 0;
 
-        int maxFamilySize = 0;
+        int maxFamilySize = -1;
 
         for (int i = 0; i < targetLength; i++) {
             if (partialSolution.get(i) == '_') {
@@ -51,9 +51,6 @@ public class EvilSolution extends Solution {
 
         this.wordList = new ArrayList<>(families.get(guessIdx));
 
-        if (maxFamilySize == 0) {
-            return -1;
-        }
         return guessIdx;
     }
 
@@ -73,8 +70,18 @@ public class EvilSolution extends Solution {
 
         int index = updateWordList(guess);
 
+        if (index != targetLength) {
+            guessCorrect = true;
+            partialSolution.set(index, guess);
+            missingChars--;
+        }
 
         return guessCorrect;
+    }
+
+    @Override
+    public String getTarget() {
+        return wordList.getFirst();
     }
 
 }
