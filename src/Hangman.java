@@ -8,11 +8,11 @@ import java.util.TreeSet;
 
 public class Hangman {
 
-	private ArrayList<String> wordList;
-	private HashSet<Character> previousGuesses;
-	private TreeSet<Character> incorrectGuesses; // behaves like a hash set, but orders the entries!
+	protected ArrayList<String> wordList;
+	protected HashSet<Character> previousGuesses;
+	protected TreeSet<Character> incorrectGuesses; // behaves like a hash set, but orders the entries!
 	private Solution solution;
-	private Scanner inputReader;
+	protected Scanner inputReader;
 
 	public Hangman() {
 		this("engDictionary.txt");
