@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class EvilSolution extends Solution {
@@ -18,9 +19,15 @@ public class EvilSolution extends Solution {
     }
 
     private int updateWordList(char guess) {
-        ArrayList<HashSet<String>> families = new ArrayList<HashSet<String>>();
-        HashSet<String> excludedFamily = new HashSet<>();
+
+        HashMap<Integer, HashSet<String>> families = new HashMap<>();
+        HashSet<String> excludedFamily = new HashSet<>(wordList);
+        HashSet<String> familySet;
         ArrayList<Integer> emptyIdx = new ArrayList<>();
+        int guessIdx = 0;
+
+        int maxFamilySize = 0;
+
         for (int i = 0; i < targetLength; i++) {
             if (partialSolution.get(i) == '_') {
                 emptyIdx.add(i);
@@ -28,12 +35,26 @@ public class EvilSolution extends Solution {
         }
 
         for (int idx: emptyIdx) {
-            families.add(getFamily(idx, guess)) ;
+            familySet = getFamily(idx, guess);
+            families.put(idx, familySet);
+            excludedFamily.removeAll(familySet);
         }
 
+        families.put(targetLength, excludedFamily);
 
+        for (int i: families.keySet()) {
+            if (families.get(i).size() > maxFamilySize) {
+                maxFamilySize = families.get(i).size();
+                guessIdx = i;
+            }
+        }
 
-        return -1 ;
+        this.wordList = new ArrayList<>(families.get(guessIdx));
+
+        if (maxFamilySize == 0) {
+            return -1;
+        }
+        return guessIdx;
     }
 
     private HashSet<String> getFamily(int index, char guess) {
@@ -49,6 +70,10 @@ public class EvilSolution extends Solution {
     @Override
     public boolean addGuess(char guess) {
         boolean guessCorrect = false;
+
+        int index = updateWordList(guess);
+
+
         return guessCorrect;
     }
 
