@@ -2,7 +2,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class EvilHangman extends Hangman {
-    
+
+    /**
+     * Constructor for building derived class EvilHangman
+     * from base class Hangman
+     */
     public EvilHangman() {
         super("engDictionary.txt");
         int maxLength = 0;

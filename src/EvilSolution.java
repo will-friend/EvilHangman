@@ -8,6 +8,13 @@ public class EvilSolution extends Solution {
     private ArrayList<String> wordList;
     private final int targetLength;
 
+    /**
+     * Constructor for derived class EvilSolution from base class Solution.
+     * Modifies Solution fields as well as introduces wordList and
+     * targetLength fields for evil portion of gameplay
+     * @param wordList ArrayList of words from input dictionary that are all
+     *                 length targetLength
+     */
     public EvilSolution(ArrayList<String> wordList) {
         super();
         this.wordList = wordList;
@@ -19,6 +26,16 @@ public class EvilSolution extends Solution {
         }
     }
 
+    /**
+     * Method to update wordList field of EvilSolution class, serving as
+     * current list of possible solution words for the evil game
+     *
+     * @param guess char provided by user input as guess of letter in solution
+     *              word
+     * @return HashSet of indices where guess will be placed to maximize the
+     * number of possible solutions left (entry of targetLength means guess was
+     * excluded
+     */
     private HashSet<Integer> updateWordList(char guess) {
 
         HashMap<HashSet<Integer>, HashSet<String>> families = new HashMap<>();
@@ -58,6 +75,15 @@ public class EvilSolution extends Solution {
         return guessIdx;
     }
 
+    /**
+     * Method to get the maximum number of times a user inputted guess char
+     * would appear in a word from available solutions in field wordList
+     *
+     * @param guess char provided by user input as guess of letter in solution
+     *              word
+     * @return int value of the maximum frequency of the character possible in
+     * the available solutions in wordList
+     */
     private int getFrequency(char guess) {
         int frequency;
         int maxFreq = -1;
@@ -73,6 +99,19 @@ public class EvilSolution extends Solution {
         return maxFreq;
     }
 
+    /**
+     * Recursive method (backtracking) to generate all possible index positions/
+     * index combinations for the user provided guess to be placed, based on
+     * number of empty spaces available and the max frequency found for the char
+     *
+     * @param i int index of current position in indices being considered
+     * @param cur ArrayList of current subset of index positions being considered
+     * @param indices ArrayList of possible index values the guess could be placed
+     *                in word
+     * @param res HashSet of index combinations to find families for
+     * @param frequency Maximum number of times a character can exist in available
+     *                  wordList words, setting upper limit to size of entry in res
+     */
     private void dfs(int i, ArrayList<Integer> cur, ArrayList<Integer> indices, HashSet<HashSet<Integer>> res, int frequency) {
         if (cur.size() == frequency || i == indices.size()) {
             if (!cur.isEmpty()) {
@@ -87,12 +126,34 @@ public class EvilSolution extends Solution {
 
     }
 
+    /**
+     * Method for invoking recursive search for all possible index combinations for
+     * word family finding given guess character and current game state
+     *
+     * @param indices ArrayList of indices that have not been filled with a correct
+     *                guess yet
+     * @param frequency int representing the maximum number of times the guess char
+     *                  could appear in a word in available solution set
+     * @return HashSet of HashSets containing all possible integer combinations within
+     * allowed guesses given max frequency and number of empty spaces remaining in game
+     */
     private HashSet<HashSet<Integer>> getIndexSubsets(ArrayList<Integer> indices, int frequency) {
         HashSet<HashSet<Integer>> subsets = new HashSet<>();
         dfs(0, new ArrayList<>(), indices, subsets, frequency);
         return subsets;
     }
 
+    /**
+     * Method for building up word families from current solution given a guess char
+     * set and a HashSet of indices to evaluate as guess placement locations
+     *
+     * @param index HashSet of integers representing the indices in the target word
+     *              to look for the guess char
+     * @param guess char representing user inputted guess for character in target
+     *              word
+     * @return HashSet of Strings (words) that contain words from wordList field that
+     * contain the char guess at indices specified in the index input param
+     */
     private HashSet<String> getFamily(HashSet<Integer> index, char guess) {
         HashSet<String> family = new HashSet<>();
         int count;
@@ -114,6 +175,15 @@ public class EvilSolution extends Solution {
         return family;
     }
 
+    /**
+     * Overridden method from Solution class to correctly implement changing
+     * solution list as game play progresses
+     *
+     * @param guess char provided by user input representing guess char in target
+     *              word
+     * @return boolean indicating if the evil game determined the guess would be
+     * correct or not
+     */
     @Override
     public boolean addGuess(char guess) {
         boolean guessCorrect = false;
@@ -131,6 +201,13 @@ public class EvilSolution extends Solution {
         return guessCorrect;
     }
 
+    /**
+     * Overridden method from Solution class to provide solution when no
+     * more words are left in solution set
+     *
+     * @return String representing the last word in the solution set after
+     * evil gameplay
+     */
     @Override
     public String getTarget() {
         return wordList.getFirst();
