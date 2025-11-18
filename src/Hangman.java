@@ -11,7 +11,7 @@ public class Hangman {
 	protected ArrayList<String> wordList;
 	protected HashSet<Character> previousGuesses;
 	protected TreeSet<Character> incorrectGuesses; // behaves like a hash set, but orders the entries!
-	private Solution solution;
+	protected Solution solution;
 	protected Scanner inputReader;
 
 	public Hangman() {
