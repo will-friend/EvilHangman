@@ -5,7 +5,7 @@ import java.util.HashSet;
 public class EvilSolution extends Solution {
 
     private ArrayList<String> wordList;
-    private int targetLength;
+    private final int targetLength;
 
     public EvilSolution(ArrayList<String> wordList) {
         super();
@@ -18,13 +18,14 @@ public class EvilSolution extends Solution {
         }
     }
 
-    private int updateWordList(char guess) {
+    private HashSet<Integer> updateWordList(char guess) {
 
-        HashMap<Integer, HashSet<String>> families = new HashMap<>();
+        HashMap<HashSet<Integer>, HashSet<String>> families = new HashMap<>();
         HashSet<String> excludedFamily = new HashSet<>(wordList);
         HashSet<String> familySet;
         ArrayList<Integer> emptyIdx = new ArrayList<>();
-        int guessIdx = 0;
+        HashSet<Integer> guessIdx = new HashSet<>();
+        int frequency = getFrequency(guess);
 
         int maxFamilySize = -1;
 
@@ -34,15 +35,17 @@ public class EvilSolution extends Solution {
             }
         }
 
-        for (int idx: emptyIdx) {
+        HashSet<HashSet<Integer>> emptySubSets = getIndexSubsets(emptyIdx, frequency);
+
+        for (HashSet<Integer> idx: emptySubSets) {
             familySet = getFamily(idx, guess);
             families.put(idx, familySet);
             excludedFamily.removeAll(familySet);
         }
 
-        families.put(targetLength, excludedFamily);
+        families.put(new HashSet<>(targetLength), excludedFamily);
 
-        for (int i: families.keySet()) {
+        for (HashSet<Integer> i: families.keySet()) {
             if (families.get(i).size() > maxFamilySize) {
                 maxFamilySize = families.get(i).size();
                 guessIdx = i;
@@ -54,10 +57,56 @@ public class EvilSolution extends Solution {
         return guessIdx;
     }
 
-    private HashSet<String> getFamily(int index, char guess) {
-        HashSet<String> family = new HashSet<>();
+    private int getFrequency(char guess) {
+        int frequency;
+        int maxFreq = -1;
         for (String word: wordList) {
-            if (word.charAt(index) == guess) {
+            frequency = 0;
+            for (int i = 0; i < word.length(); i++) {
+                if (word.charAt(i) == guess) {
+                    frequency++;
+                }
+            }
+            maxFreq = Math.max(frequency, maxFreq);
+        }
+        return maxFreq;
+    }
+
+    private void dfs(int i, ArrayList<Integer> cur, ArrayList<Integer> indices, HashSet<HashSet<Integer>> res, int frequency) {
+        if (cur.size() == frequency || i == indices.size()) {
+            if (!cur.isEmpty()) {
+                res.add(new HashSet<>(cur));
+            }
+            return;
+        }
+        cur.add(indices.get(i));
+        dfs(i + 1, cur, indices, res, frequency);
+        cur.removeLast();
+        dfs(i + 1, cur, indices, res, frequency);
+
+    }
+
+    private HashSet<HashSet<Integer>> getIndexSubsets(ArrayList<Integer> indices, int frequency) {
+        HashSet<HashSet<Integer>> subsets = new HashSet<>();
+        dfs(0, new ArrayList<>(), indices, subsets, frequency);
+        return subsets;
+    }
+
+    private HashSet<String> getFamily(HashSet<Integer> index, char guess) {
+        HashSet<String> family = new HashSet<>();
+        int count;
+        for (String word: wordList) {
+            count = 0;
+            for (int i = 0; i < word.length(); i++) {
+                if (word.charAt(i) == guess) {
+                    if (index.contains(i)) {
+                        count++;
+                    } else {
+                        count--;
+                    }
+                }
+            }
+            if (count == index.size()) {
                 family.add(word);
             }
         }
@@ -68,12 +117,14 @@ public class EvilSolution extends Solution {
     public boolean addGuess(char guess) {
         boolean guessCorrect = false;
 
-        int index = updateWordList(guess);
+        ArrayList<Integer> index = new ArrayList<>(updateWordList(guess));
 
-        if (index != targetLength) {
+        if (index.getFirst() != targetLength) {
             guessCorrect = true;
-            partialSolution.set(index, guess);
-            missingChars--;
+            for (int idx : index) {
+                partialSolution.set(idx, guess);
+                missingChars--;
+            }
         }
 
         return guessCorrect;
