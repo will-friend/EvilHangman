@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -43,7 +44,7 @@ public class EvilSolution extends Solution {
             excludedFamily.removeAll(familySet);
         }
 
-        families.put(new HashSet<>(targetLength), excludedFamily);
+        families.put(new HashSet<>(Arrays.asList(targetLength)), excludedFamily);
 
         for (HashSet<Integer> i: families.keySet()) {
             if (families.get(i).size() > maxFamilySize) {
