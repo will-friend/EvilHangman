@@ -6,7 +6,6 @@ public class EvilHangman extends Hangman {
 
     private int solutionLength;
     private ArrayList<String> solutionList;
-    private EvilSolution solution;
 
     public EvilHangman() {
         super("engDictionary.txt");
@@ -25,8 +24,5 @@ public class EvilHangman extends Hangman {
         solution = new EvilSolution(solutionList);
 
     }
-
-
-
 
 }
