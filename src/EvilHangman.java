@@ -7,8 +7,8 @@ public class EvilHangman extends Hangman {
      * Constructor for building derived class EvilHangman
      * from base class Hangman
      */
-    public EvilHangman() {
-        super("engDictionary.txt");
+    public EvilHangman(String dictionaryPath) {
+        super(dictionaryPath);
         int maxLength = 0;
         int randomIndex = new Random().nextInt(wordList.size());
         String target = wordList.get(randomIndex);
