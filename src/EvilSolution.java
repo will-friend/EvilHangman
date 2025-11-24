@@ -20,10 +20,37 @@ public class EvilSolution extends Solution {
         this.wordList = wordList;
         this.missingChars = this.wordList.getFirst().length();
         this.targetLength = this.missingChars;
-        partialSolution = new ArrayList<>(missingChars);
+        this.partialSolution = new ArrayList<>(missingChars);
         for (int i = 0; i < this.missingChars; i++) {
             partialSolution.add('_') ;
         }
+    }
+
+    /**
+     * Method to return the character array of the partial solution state
+     * of the evil hangman game
+     * @return ArrayList of Characters representing the current partial
+     * solution state of the current game
+     */
+    public ArrayList<Character> getPartialSolution() {
+        return this.partialSolution;
+    }
+
+    /**
+     * Method to return the target word length
+     * @return integer representing number of char in solution word
+     */
+    public int getTargetLength() {
+        return this.targetLength;
+    }
+
+    /**
+     * Method to return the wordList field (for testing)
+     * @return ArrayList of Strings for the words in the provided
+     * dictionary
+     */
+    public ArrayList<String> getWordList() {
+        return wordList;
     }
 
     /**
