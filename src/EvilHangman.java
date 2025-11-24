@@ -10,10 +10,9 @@ public class EvilHangman extends Hangman {
     public EvilHangman() {
         super("engDictionary.txt");
         int maxLength = 0;
-        for (String word : wordList) {
-            maxLength = Math.max(maxLength, word.length());
-        }
-        int solutionLength = new Random().nextInt(maxLength-1) + 1;
+        int randomIndex = new Random().nextInt(wordList.size());
+        String target = wordList.get(randomIndex);
+        int solutionLength = target.length();
         ArrayList<String> solutionList = new ArrayList<>();
         for (String word : wordList) {
             if (word.length() == solutionLength) {
