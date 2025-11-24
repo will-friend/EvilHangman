@@ -6,6 +6,7 @@ public class Solution {
 	protected ArrayList<Character> partialSolution;
 	protected int missingChars;
 
+	// Not used in EvilSolution
 	public Solution(String target) {
 		this.target = target;
 		missingChars = target.length();
@@ -15,14 +16,17 @@ public class Solution {
 		}
 	}
 
+	// Used in EvilSolution
 	public Solution() {
 
 	}
 
+	// Used in EvilSolution
 	public boolean isSolved() {
 		return missingChars == 0;
 	}
 
+	// Used in EvilSolution
 	public void printProgress() {
 		for (char c : partialSolution) {
 			System.out.print(c + " ");
@@ -30,6 +34,7 @@ public class Solution {
 		System.out.println();
 	}
 
+	// Overridden in EvilSolution
 	public boolean addGuess(char guess) {
 		boolean guessCorrect = false;
 		for (int i = 0; i < target.length(); i++) {
@@ -42,6 +47,7 @@ public class Solution {
 		return guessCorrect;
 	}
 
+	// overridden in EvilSolution
 	public String getTarget() {
 		return target;
 	}
