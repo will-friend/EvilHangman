@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -68,26 +69,19 @@ class EvilSolutionTest {
     }
 
     @Test void TestPrintProgressNoGuess() {
-        try {
-            PrintStream testPrintStream = new PrintStream("test_printProgress.txt");
-            System.setOut(testPrintStream);
-            this.solution.printProgress();
-            System.setOut(originalOutputStream);
-            FileInputStream fileInputStream = new FileInputStream("test_printProgress.txt");
-            Scanner scannerReader = new Scanner(new InputStreamReader(fileInputStream));
-            ArrayList<Character> expectedPartial = new ArrayList<>(Arrays.asList('_', '_', '_', '_'));
-            ArrayList<Character> actualPartial = new ArrayList<>();
-            while (scannerReader.hasNext()) {
-                actualPartial.add(scannerReader.next().charAt(0));
-            }
-            assertEquals(expectedPartial, actualPartial);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream testPrintStream = new PrintStream(outputStream);
+        System.setOut(testPrintStream);
+        this.solution.printProgress();
+        System.setOut(originalOutputStream);
+        String expectedPartial = "_ _ _ _ \n";
+        String actualPartial = outputStream.toString();
+        assertEquals(expectedPartial, actualPartial);
+    }
 
-        } catch (IOException e) {
-            System.setOut(originalOutputStream);
-            System.out.println(e.getMessage());
-        } finally {
-            System.setOut(originalOutputStream);
-        }
+    @AfterEach
+    void tearDown() {
+        System.setOut(originalOutputStream);
     }
 
 
