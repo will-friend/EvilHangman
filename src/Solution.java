@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Solution {
 
-	private String target;
+	protected String target;
 	protected ArrayList<Character> partialSolution;
 	protected int missingChars;
 
@@ -14,11 +14,6 @@ public class Solution {
 		for (int i = 0; i < target.length(); i++) {
 			partialSolution.add('_');
 		}
-	}
-
-	// Used in EvilSolution
-	public Solution() {
-
 	}
 
 	// Used in EvilSolution
