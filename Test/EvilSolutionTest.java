@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +27,7 @@ class EvilSolutionTest {
 
     @Test
     public void testGetTarget() {
-        assertEquals(this.wordList.getFirst(), this.solution.getTarget());
+        assertNotNull(this.solution.getTarget());
     }
 
     @Test void testAddGuessExclude() {
@@ -63,8 +62,11 @@ class EvilSolutionTest {
     }
 
     @Test void testIsSolvedTrue() {
-        ArrayList<String> wordList = new ArrayList<String>(Arrays.asList(""));
-        EvilSolution solution = new EvilSolution(wordList);
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+        for (char c : alphabet.toCharArray()) {
+            this.solution.addGuess(c);
+        }
         assertTrue(solution.isSolved());
     }
 

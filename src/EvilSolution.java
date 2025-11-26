@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class EvilSolution extends Solution {
 
@@ -16,10 +13,20 @@ public class EvilSolution extends Solution {
      *                 length targetLength
      */
     public EvilSolution(ArrayList<String> wordList) {
-        super();
-        this.wordList = wordList;
-        this.missingChars = this.wordList.getFirst().length();
-        this.targetLength = this.missingChars;
+        super(wordList.getFirst());
+
+        int randomIndex = new Random().nextInt(wordList.size());
+        this.target = wordList.get(randomIndex);
+        int solutionLength = target.length();
+        ArrayList<String> solutionList = new ArrayList<>();
+        for (String word : wordList) {
+            if (word.length() == solutionLength) {
+                solutionList.add(word);
+            }
+        }
+        this.wordList = solutionList;
+        this.targetLength = this.target.length();
+        this.missingChars = this.targetLength;
         this.partialSolution = new ArrayList<>(missingChars);
         for (int i = 0; i < this.missingChars; i++) {
             partialSolution.add('_') ;
@@ -237,7 +244,8 @@ public class EvilSolution extends Solution {
      */
     @Override
     public String getTarget() {
-        return wordList.getFirst();
+        int randomIndex = new Random().nextInt(wordList.size());
+        return wordList.get(randomIndex);
     }
 
 }
