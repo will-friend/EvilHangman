@@ -4,6 +4,13 @@ import java.util.Random;
 public class EvilHangman extends Hangman {
 
     /**
+     * No argument constructor for running game
+     */
+    public EvilHangman() {
+        this("engDictionary.txt");
+    }
+
+    /**
      * Constructor for building derived class EvilHangman
      * from base class Hangman
      */
@@ -20,7 +27,7 @@ public class EvilHangman extends Hangman {
             }
         }
 
-        solution = new EvilSolution(solutionList);
+        solution = new EvilSolution(wordList);
 
     }
 
